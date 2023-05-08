@@ -118,7 +118,6 @@ There are 3 parameters that you can change when defining the sync strategy:
 
 * Argo CD comes with its own custom resources that can be stored in Git, and applied in a cluster using kubectl or even better Argo CD itself.
 * Example - [more details](https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/):
-
 ```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -134,7 +133,7 @@ spec:
     path: ./01-simple-app
     targetRevision: HEAD
 ```
-
+* you can have one repository for all the argo apps, and create just one application manually, and this application will control the rest of the applications
 
 ## ArgoCD CLI
 
