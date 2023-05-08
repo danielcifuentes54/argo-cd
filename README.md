@@ -135,9 +135,28 @@ spec:
 ```
 * you can have one repository for all the argo apps, and create just one application manually, and this application will control the rest of the applications
 
+### Deploying with Helm
+
+* ArgoCD provides native support for Helm, meaning you can directly connect a packaged Helm chart and Argo CD will monitor it for new versions. When this takes place, the Helm chart will no longer function as a Helm chart and instead, is rendered with the Helm template when Argo is installed, using the Argo CD application manifest.
+
+* ArgoCD doesn't include the Helm payload information. When deploying a Helm application, Argo CD runs "helm template" and deploys the resulting manifests.
+
+###  Deploying with Kustomize
+
+* Both Kustomize and Argo CD are declarative tools for Kubernetes that follow the GitOps pattern and work well together. Argo CD supports Kustomize and has the ability to read a kustomization.yaml file. To deploy Kustomize with Argo CD, ensure the Kubernetes cluster is set up and you are logged into Argo CD so that these resources are provided and can be deployed.
 ## ArgoCD CLI
 
+### Create an argo app
+```bash
+ argocd app create demo \
+ --project default \
+ --repo https://github.com/danielcifuentes54/argo-cd \
+ --path "./05-helm-app/" \
+ --sync-policy auto \
+ --dest-namespace default \
+ --dest-server https://kubernetes.default.svc
+```
 ### Synchronizing an Argo CD application
-> ``` 
-> argocd app sync {APP NAME}
-> ```
+```bash
+argocd app sync {APP NAME}
+```
