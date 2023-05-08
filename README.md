@@ -86,7 +86,7 @@ Apart from the synced/out-of-sync status, Argo CD also keeps track of the servic
 > For custom Kubernetes resources, health is defined in Lua scripts
 
 
-> Argo CD health checks are completely independent from (Kubernetes health probes)[https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/].
+> Argo CD health checks are completely independent from [Kubernetes health probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
 
 >Having a custom health check just provides a better experience with Argo CD. You can still deploy your custom application even without a health check, and it will never show as Healthy in the Argo CD dashboards.
 
@@ -100,6 +100,40 @@ There are 3 parameters that you can change when defining the sync strategy:
 > Adopting GitOps in its purest form may require organizational changes or a reexamination of policies and your organization may not be ready at this point.
 
 ###  Managing Secrets
+
+* there is no single accepted practice for how secrets are managed with GitOps. If you already have a solid solution in place such as HashiCorp vault, then it would make sense to use that even though technically it is against GitOps practices.
+* [Argo CD can be used with any secret solution that you already have deployed](https://argo-cd.readthedocs.io/en/stable/operator-manual/secret-management/)
+* All solutions that handle secrets using Git are storing them in an encrypted form. This means that you can get the best of both worlds. Secrets can be managed with GitOps, and they can also be placed in a secure manner in any Git repository (even public repositories).
+* 
+> ```
+> Example:
+> 1. Install a tool like bitnami sealed secret
+> 2. Encrypt the secrets:
+> kubeseal < unsealed_secrets/db-creds.yml > sealed_secrets/db-creds-encrypted.yaml -o yaml
+> kubeseal < unsealed_secrets/paypal-cert.yml > sealed_secrets/paypal-cert-encrypted.yaml -o yaml
+> 3. Upload encrypted files to git
+>```
+
+###  Declarative Setup
+
+* Argo CD comes with its own custom resources that can be stored in Git, and applied in a cluster using kubectl or even better Argo CD itself.
+* Example - [more details](https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/):
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: canary-demo
+spec:
+  destination:
+    server: 'https://kubernetes.default.svc' 
+    namespace: demo
+  project: default
+  source:
+    repoURL: 'https://github.com/danielcifuentes54/argo-cd'
+    path: ./01-simple-app
+    targetRevision: HEAD
+```
 
 
 ## ArgoCD CLI
