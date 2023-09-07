@@ -18,7 +18,6 @@ GitOps is a set of best practices where the entire code delivery process is cont
 
 * Continuous deployment of applications
 * Continuous deployment of cluster resources
-* Continuous deployment of  
 * Detecting/Avoiding configuration drift
 * Multi-cluster deployments
 
@@ -144,6 +143,26 @@ spec:
 ###  Deploying with Kustomize
 
 * Both Kustomize and Argo CD are declarative tools for Kubernetes that follow the GitOps pattern and work well together. Argo CD supports Kustomize and has the ability to read a kustomization.yaml file. To deploy Kustomize with Argo CD, ensure the Kubernetes cluster is set up and you are logged into Argo CD so that these resources are provided and can be deployed.
+
+### Progresive Delivery
+
+* Progressive Delivery is the practice of deploying an application in a gradual manner allowing for minimum downtime and easy rollbacks. There are several forms of progressive delivery such as blue/green, canary, a/b and feature flags.
+
+#### Argo Rollouts
+
+Argo Rollouts is a progressive delivery controller created for Kubernetes. It allows you to deploy your application with minimal/zero downtime by adopting a gradual way of deploying instead of taking an “all at once” approach.
+
+Argo Rollouts supercharges your Kubernetes cluster and in addition to the rolling updates you can now do:
+
+* Blue/green deployments
+* Canary deployments (It is necessary to have a service mesh)
+* A/B tests
+* Automatic rollbacks
+* Integrated Metric analysis
+
+* Automated Rollbacks with Metrics: While you can use canaries with simple pauses between the different stages, Argo Rollouts offers the powerful capability to look at application metrics and decide automatically if the deployment should continue or not. The idea behind this approach is to completely automate canary deployments. Instead of having a human running manual smoke tests, or looking at graphs, you can set different thresholds that define if a deployment is “successful” or not
+
+
 ## ArgoCD CLI
 
 ### Create an argo app
