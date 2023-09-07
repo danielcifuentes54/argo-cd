@@ -162,7 +162,6 @@ Argo Rollouts supercharges your Kubernetes cluster and in addition to the rollin
 
 * Automated Rollbacks with Metrics: While you can use canaries with simple pauses between the different stages, Argo Rollouts offers the powerful capability to look at application metrics and decide automatically if the deployment should continue or not. The idea behind this approach is to completely automate canary deployments. Instead of having a human running manual smoke tests, or looking at graphs, you can set different thresholds that define if a deployment is “successful” or not
 
-
 ## ArgoCD CLI
 
 ### Create an argo app
